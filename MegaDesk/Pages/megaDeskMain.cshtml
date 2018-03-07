@@ -1,0 +1,101 @@
+﻿<!--HEADING-->
+@{
+    Layout = "/Shared/_Layout1.cshtml";
+}
+
+@section link{
+    <link rel="stylesheet" href="~/Shared/styleOne.css" />
+}
+
+@section script {
+    <script src="~/Scripts/scriptBasic.js"></script>}
+
+<!--FORM HANDLING RAZOR CODE-->
+@{
+    var db = Database.Open("Quote2");
+    var selectCommand = "Select * FROM Quote";
+    var searchTerm = "";
+
+    if (!Request.QueryString["byCustomerName"].IsEmpty())
+    {
+        selectCommand = "SELECT * FROM Quote WHERE Name = @0";
+        searchTerm = Request.QueryString["byCustomerName"];
+    }
+
+    if (!Request.QueryString["surfaceMaterial"].IsEmpty())
+    {
+        selectCommand = "SELECT * FROM Quote WHERE SurfaceMaterial LIKE @0";
+        searchTerm = "%" + Request.QueryString["surfaceMaterial"] + "%";
+    }
+
+    var selectedData = db.Query(selectCommand, searchTerm);
+    var grid = new WebGrid(source: selectedData, defaultSort: "Date",rowsPerPage: 5);
+
+
+}
+
+
+
+
+
+<!--Optional Additional Markup-->
+<div id="mainPageHeadingDivImage">
+    <span><img id="deskImage" src="~/Media/Images/megadeskTwo.jpg" /></span><span id="megaDeskWords">MegaDesk</span>
+</div>
+
+
+
+
+
+
+<!--OPTIONAL FORMs-->
+<!--Form1-->
+<form method="get">
+    <div>
+        <label style="font-weight:bold; font-size:1.5em;" for="byCustomerName">Search by Customer Name:</label>
+        <input id="customerNameSearchBox" type="text" name="byCustomerName" value="@Request.QueryString["byCustomername"]" />
+        <input style="background-color:lavender;" type="Submit" value="Search Quotes" /><br />
+        (Leave blank to list all quotes.)<br />
+    </div>
+    <div>
+        <label style="font-weight:bold; font-size:1.5em;" for="SurfaceMaterial">Search by Surface Material:</label>
+        <input id="surfaceMaterialSearchBox" type="text" name="surfaceMaterial" value="@Request.QueryString["surfaceMaterial"]" />
+        <input style="background-color:lavender;" type="Submit" value="Search Quotes" /><br />
+    </div>
+</form>
+
+
+
+
+<!--OPTIONAL OUTPUT-->
+<div>
+    @grid.GetHtml(
+                             tableStyle: "grid",
+                             headerStyle: "head",
+                             alternatingRowStyle: "alt",
+                             columns: grid.Columns(
+                             grid.Column(format: @<a href="edit.cshtml?quoteid=@item.Id">Edit</a>),
+                             grid.Column("Date"),
+                             grid.Column("Name"),
+                             grid.Column("RushOption"),
+                             grid.Column("DeskWidth"),
+                             grid.Column("DeskDepth"),
+                             grid.Column("DrawerCount"),
+                             grid.Column("SurfaceMaterial"),
+                             grid.Column("DeskQuote"),
+                             grid.Column(format:@<a onclick = "UpdateQuote()" href="updateQuote.cshtml?quoteid=@item.Id">UpdateQuote</a>),
+                             grid.Column(format:@<a href="delete.cshtml?quoteid=@item.Id">Delete</a>)
+                                                                     )
+                                                                   )
+    <div style="visibility:hidden;"id="outPut">
+    </div>
+
+</div>
+
+
+<!---LINKS-->
+<div>
+    <p>
+        <a id="addPageLink" href="addScripture.cshtml">Add a Scripture</a>
+    </p>
+</div>

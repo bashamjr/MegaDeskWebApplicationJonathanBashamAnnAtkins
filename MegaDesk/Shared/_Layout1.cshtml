@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Author" content="AA">
+    <meta name="keywords" content="tutorial, html">
+    <link rel="stylesheet" href="~/Shared/styleOne.css">
+    <script src="~/Scripts/scriptOne.js" type="text/javascript"></script>
+    <title>@Page.Title</title>
+    @RenderSection("head", required: false)
+    @RenderSection("link", required: false)
+    @RenderSection("script", required: false)
+</head>
+<body>
+    <div id="bodyDiv">
+        @RenderBody()
+    </div>
+    <div>
+        @RenderPage("footer.cshtml")
+    </div>
+</body>
+</html>
