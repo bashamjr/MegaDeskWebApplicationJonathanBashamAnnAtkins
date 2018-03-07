@@ -1,9 +1,157 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+﻿<!--HEADING-->
+@{
+    Layout = "/Shared/_Layout1.cshtml";
+}
+@section link {
+    <link rel="stylesheet" href="~/Shared/styleOne.css" />}
+@section script {
+    <script src="~/Scripts/scriptOne.js"></script>}
 
-</body>
-</html>
+<head>
+    <!---This seems to be the way to override style for a section that is governed by a main css-->
+    <style type="text/css">
+        .field-validation-error {
+            font-weight: bold;
+            color: red;
+            background-color: gold;
+        }
+
+        .validation-summary-errors {
+            border: 2px dashed red;
+            color: red;
+            background-color: gold;
+            font-weight: bold;
+            margin: 12px;
+        }
+    </style>
+</head>
+
+<!--FORM HANDLING RAZOR CODE-->
+@{
+
+
+    //validation here
+    /*No empty fields allowed*/
+    Validation.RequireField("date", "You must enter a Date");
+    Validation.RequireField("name", "Name is required");
+    Validation.RequireField("rushOption", "You haven't selected a Rush Option");
+    Validation.RequireField("deskWidth", "You must enter Desk Width");
+    Validation.RequireField("deskDepth", "Desk Depth selection is required");
+    Validation.RequireField("drawerCount", "How many Desk Drawers do you want?");
+    Validation.RequireField("surfaceMaterial", "Choose your Desk Finish");
+
+    /*range checks*/
+
+
+
+
+
+    /*check input is valid*/
+
+
+
+    var _date = "";
+    var _name = "";
+    var _rushoption = "";
+    var _deskWidth = "";
+    var _deskDepth = "";
+    var _drawerCount = "";
+    var _surfaceMaterial = "";
+    var _deskQuote = "";
+
+
+    if (IsPost && Validation.IsValid())
+    {
+        //fetch data from request object
+        _date = Request.Form["date"];
+        _name = Request.Form["name"];
+        _rushoption = Request.Form["rushOption"];
+        _deskWidth = Request.Form["deskWidth"];
+        _deskDepth = Request.Form["deskDepth"];
+        _drawerCount = Request.Form["drawerCount"];
+        _surfaceMaterial = Request.Form["surfaceMaterial"];
+
+        //instantiate a new deskquote object, fill with relevant data with constructor
+        //   invoke the calculateDeskQuote method (and maybe other methods needed to 
+        //   fill out the DeskQuote object) the quote will be saved to the _deskQuote Variable
+        //   which will be passed to the database for each quote created.
+        //DeskQuote theDeskQuote = new DeskQuote();
+
+
+
+        //add the fetched data to the database
+        var db = Database.Open("Quote");
+        var insertCommand = "INSERT INTO Quote (Date,Name,RushOption,DeskWidth,DeskDepth,DrawerCount,SurfaceMaterial) VALUES(@0,@1,@2,@3,@4,@5,@6)";
+        db.Execute(insertCommand, _date, _name, _rushoption, _deskWidth, _deskDepth, _drawerCount, _surfaceMaterial);
+
+        //ensure that after user 'adds a quote' they are redirected to the 'Display Quote' page
+        //   to see quote just entered and confirm, once confirm button is pushed
+        Response.Redirect(".cshtml");
+    }
+}
+
+<!--Optional Additional Markup-->
+
+
+
+
+
+<!--OPTIONAL FORMs-->
+<!--BodyStarts here-->
+<h1>Build a Quote</h1>
+<!--Gets sum summary of all validation reports on all elements validated-->
+@Html.ValidationSummary()
+
+<form method="post">
+    <fieldset>
+        <legend>Quote Information</legend>
+        <p>
+            <label for="book">Book:</label>
+            <input type="text" name="book" value="@Request.Form["book"]" />
+            @Html.ValidationMessage("book")
+        </p>
+
+        <p>
+            <label for="chapter">Chapter:</label>
+            <input type="text" name="chapter" value="@Request.Form["chapter"]" />
+            @Html.ValidationMessage("chapter")
+        </p>
+
+        <p>
+            <label for="verse">Verse:</label>
+            <input type="text" name="verse" value="@Request.Form["verse"]" />
+            @Html.ValidationMessage("verse")
+        </p>
+
+        <p>
+            <label for="note">Note:</label>
+            <input type="text" name="note" value="@Request.Form["note"]" />
+            @Html.ValidationMessage("note")
+        </p>
+
+        <p>
+            <label for="diary">Diary:</label>
+            <input type="text" name="diary" value="@Request.Form["diary"]" />
+            @Html.ValidationMessage("diary")
+        </p>
+
+        <p>
+            <label for="dateAdded">Date Added:</label>
+            <input type="text" name="dateAdded" value="@Request.Form["dateAdded"]" />
+            @Html.ValidationMessage("dateAdded")
+        </p>
+
+        <p><input type="submit" name="buttonSubmit" value="Add Scripture" /></p>
+    </fieldset>
+</form>
+
+<!--OPTIONAL OUTPUT-->
+
+
+
+<!---LINKS-->
+<div>
+    <p>
+        <a id="MainPageLink" href="megaDeskMain.cshtml">Add a Scripture</a>
+    </p>
+</div>
