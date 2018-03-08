@@ -8,11 +8,11 @@ namespace MegaDesk
     class DeskQuote
     {
         //fields
-        private decimal price;
-        private string surfaceMaterialOption;
-        private string customerName;
-        private int rushOption;
-        private decimal extraDeskCost;
+        public decimal price;
+        public string surfaceMaterialOption;
+        public string customerName;
+        public int rushOption;
+        public decimal extraDeskCost;
         DateTime quoteDate = DateTime.Now;
         public List<DeskQuote> myList = new List<DeskQuote>();
         public Desk desk = new Desk(); //it seems that when one has an object as a member field of another class, one must initialise the member object with memory

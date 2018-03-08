@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MegaDesk, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\MegaDesk.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -90,7 +94,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Quote2.sdf" />
+    <Content Include="App_Data\Quote.sdf" />
     <Content Include="Default.cshtml" />
     <None Include="packages.config" />
     <Content Include="Shared\_Layout1.cshtml" />
@@ -118,12 +122,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Code\Desk.cs" />
-    <Compile Include="App_Code\DeskQuote.cs" />
+    <Compile Include="Desk.cs" />
+    <Compile Include="DeskQuote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Account\" />
+    <Folder Include="App_Code\" />
     <Folder Include="Media\Clips\" />
     <Folder Include="Media\Sounds\" />
   </ItemGroup>

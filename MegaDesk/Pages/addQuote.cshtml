@@ -1,4 +1,5 @@
-﻿<!--HEADING-->
+﻿@using MegaDesk
+<!--HEADING-->
 @{
     Layout = "/Shared/_Layout1.cshtml";
 }
@@ -57,7 +58,8 @@
     var _deskDepth = "";
     var _drawerCount = "";
     var _surfaceMaterial = "";
-    var _deskQuote = "";
+    //var _surfaceMaterialConverted = "";
+    var _deskQuote = 100M;
 
 
     if (IsPost && Validation.IsValid())
@@ -72,30 +74,51 @@
         _surfaceMaterial = Request.Form["surfaceMaterial"];
 
         //instantiate a new deskquote object, fill with relevant data with constructor
-        //   invoke the calculateDeskQuote method (and maybe other methods needed to 
+        //   invoke the calculateDeskQuote method (and maybe other methods needed to
         //   fill out the DeskQuote object) the quote will be saved to the _deskQuote Variable
         //   which will be passed to the database for each quote created.
-        //DeskQuote theDeskQuote = new DeskQuote();
+        //test surface material
+        /*if(_surfaceMaterial == "Oak")
+         * {
+         *     _surfaceMaterialConverted = 0;
+         * 
+         * }
+         * else if (_surfaceMaterial == "Laminat")
+         * {
+         *     _surfaceMaterialConverted = 1;
+         * }
+         * 
+         * else if (_surfaceMaterial == "Pine")
+         * {
+         *     _surfaceMaterialConverted = 2;
+         * }
+         * else if (_surfaceMaterial == "RoseWood")
+         * {
+         *     _surfaceMaterialConverted = 3;
+         * }
+         * else if (_surfaceMaterial == "Veneer")
+         * {
+         *     _surfaceMaterialConverted = 4;*/
+
+        //Desk theDesk= new Desk(_deskWidth ,_deskDepth, _drawerCount, _surfaceMaterialConverted);
+        //MegaDesk.DeskQuote theDeskQuote = new DeskQuote(_name, _rushoption, theDesk);
+
 
 
 
         //add the fetched data to the database
         var db = Database.Open("Quote");
-        var insertCommand = "INSERT INTO Quote (Date,Name,RushOption,DeskWidth,DeskDepth,DrawerCount,SurfaceMaterial) VALUES(@0,@1,@2,@3,@4,@5,@6)";
-        db.Execute(insertCommand, _date, _name, _rushoption, _deskWidth, _deskDepth, _drawerCount, _surfaceMaterial);
+        var insertCommand = "INSERT INTO Quotes (Date,Name,RushOption,DeskWidth,DeskDepth,DrawerCount,SurfaceMaterial,DeskQuote) VALUES(@0,@1,@2,@3,@4,@5,@6,@7)";
+        db.Execute(insertCommand, _date, _name, _rushoption, _deskWidth, _deskDepth, _drawerCount, _surfaceMaterial, _deskQuote);
 
         //ensure that after user 'adds a quote' they are redirected to the 'Display Quote' page
-        //   to see quote just entered and confirm, once confirm button is pushed
-        Response.Redirect(".cshtml");
+        //   to see quote just entered and confirm, once confirm button is pushed, displayQuote
+        //   redirects to megaDeskMain
+        Response.Redirect("megaDeskMain.cshtml?name = @item.Name");
     }
 }
 
 <!--Optional Additional Markup-->
-
-
-
-
-
 <!--OPTIONAL FORMs-->
 <!--BodyStarts here-->
 <h1>Build a Quote</h1>
@@ -106,52 +129,57 @@
     <fieldset>
         <legend>Quote Information</legend>
         <p>
-            <label for="book">Book:</label>
-            <input type="text" name="book" value="@Request.Form["book"]" />
+            <label for="date">Date:</label>
+            <input type="text" name="date" value="@DateTime.Now" />
             @Html.ValidationMessage("book")
         </p>
-
+      
         <p>
-            <label for="chapter">Chapter:</label>
-            <input type="text" name="chapter" value="@Request.Form["chapter"]" />
+            <label for="name">Name:</label>
+            <input type="text" name="name" value="@Request.Form["name"]" />
             @Html.ValidationMessage("chapter")
         </p>
 
         <p>
-            <label for="verse">Verse:</label>
-            <input type="text" name="verse" value="@Request.Form["verse"]" />
-            @Html.ValidationMessage("verse")
+            <label for="rushOption">RushOption(Enter 3, 5 or 7):</label>
+            <input type="text" name="rushOption" value="@Request.Form["rushOption"]" /> 
+            
+
         </p>
 
         <p>
-            <label for="note">Note:</label>
-            <input type="text" name="note" value="@Request.Form["note"]" />
-            @Html.ValidationMessage("note")
+            <label for="deskWidth">Desk Width:</label>
+            <input type="text" name="deskWidth" value="@Request.Form["deskWidth"]" />
+            @Html.ValidationMessage("deskWidth")
         </p>
 
         <p>
-            <label for="diary">Diary:</label>
-            <input type="text" name="diary" value="@Request.Form["diary"]" />
-            @Html.ValidationMessage("diary")
+            <label for="deskDepth">Desk Depth:</label>
+            <input type="text" name="deskDepth" value="@Request.Form["deskDepth"]" />
+            @Html.ValidationMessage("deskDepth")
         </p>
 
         <p>
-            <label for="dateAdded">Date Added:</label>
-            <input type="text" name="dateAdded" value="@Request.Form["dateAdded"]" />
-            @Html.ValidationMessage("dateAdded")
+            <label for="drawerCount">Drawer Count(Enter a number between 0-7):</label>
+            <input type="text" name="drawerCount" value="@Request.Form["drawerCount"]" /> 
         </p>
 
-        <p><input type="submit" name="buttonSubmit" value="Add Scripture" /></p>
+        <p>
+            <label for="surfaceMaterial">SurfaceMaterial(Enter Oak, RoseWood, Pine, Laminate or Veneer):</label>
+            <input type="text" name="surfaceMaterial" value="@Request.Form["surfaceMaterial"]"/> 
+        </p>
+
+        <p><input type="submit" name="buttonSubmit" value="Add Quote" /></p>
     </fieldset>
 </form>
 
+
 <!--OPTIONAL OUTPUT-->
-
-
-
 <!---LINKS-->
 <div>
     <p>
-        <a id="MainPageLink" href="megaDeskMain.cshtml">Add a Scripture</a>
+        <a id="MainPageLink" href="megaDeskMain.cshtml">Home</a>
     </p>
 </div>
+
+
