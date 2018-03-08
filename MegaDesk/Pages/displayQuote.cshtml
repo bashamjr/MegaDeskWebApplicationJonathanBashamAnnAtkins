@@ -1,9 +1,111 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+﻿<!--HEADING-->
+@{
+    Layout = "/Shared/_Layout1.cshtml";
+}
 
-</body>
-</html>
+@section link{
+    <link rel="stylesheet" href="~/Shared/styleOne.css" />
+}
+
+@section script {
+    <script src="~/Scripts/scriptBasic.js"></script>}
+
+<!--FORM HANDLING RAZOR CODE-->
+@{
+    var date = "";
+    var name = Request.QueryString["name"];
+    var rushOption = "";
+    var deskWidth = "";
+    var deskDepth = "";
+    var drawerCount = "";
+    var surfaceMaterial = "";
+    var deskQuote = "";
+    var quoteId = Request.QueryString["quoteid"];
+    if (!IsPost)
+    {
+        if (!Request.QueryString["quoteid"].IsEmpty() && Request.QueryString["quoteid"].IsInt())
+        {
+            quoteId = Request.QueryString["quoteid"]; //filled from query string sent over in 'delete link'
+            var db = Database.Open("Quote");
+            var dbCommand = "SELECT * FROM Quotes WHERE ID = @0";
+            var row = db.QuerySingle(dbCommand, quoteId);
+            if (row != null)
+            {
+                date = row.Date;
+                name = row.Name;
+                rushOption = row.RushOption.ToString();
+                deskWidth = row.DeskWidth;
+                deskDepth = row.DeskDepth;
+                drawerCount = row.DrawerCount;
+                surfaceMaterial = row.SurfaceMaterial;
+                deskQuote = row.DeskQuote;
+
+
+
+            }
+            else
+            {
+                Validation.AddFormError("Sorry, can't retrieve last quote that ID.");
+            }
+        }
+        else
+        {
+            Validation.AddFormError("Sorry bad ID.");
+        }
+    }
+
+}
+
+
+
+<!--Optional Additional Markup-->
+<!--OPTIONAL FORMs-->
+<!--Form1-->
+<form method="post">
+    <fieldset>
+        <legend>Last Quote Information</legend>
+        <p>
+            <span>Date:</span>
+            <span>@date</span>
+        </p>
+
+        <p>
+            <span>Name:</span>
+            <span>@name</span>
+        </p>
+
+        <p>
+            <span>Rush Option:</span>
+            <span>@rushOption</span>
+        </p>
+
+        <p>
+            <span>Desk Width:</span>
+            <span>@deskWidth</span>
+        </p>
+
+        <p>
+            <span>Desk Depth:</span>
+            <span>@deskDepth</span>
+        </p>
+
+        <p>
+            <span>Drawer Count:</span>
+            <span>@drawerCount</span>
+        </p>
+        <p>
+            <span>Surface Material:</span>
+            <span>@surfaceMaterial</span>
+        </p>
+
+        <p>
+            <span>Desk Quote:</span>
+            <span>@deskQuote</span>
+        </p>
+
+       
+    </fieldset>
+</form>
+<!--OPTIONAL OUTPUT-->
+<!---LINKS-->
+<p><a href="megaDeskMain.cshtml">Home</a></p>

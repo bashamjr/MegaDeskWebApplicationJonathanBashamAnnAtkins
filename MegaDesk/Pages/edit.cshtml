@@ -1,9 +1,145 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+﻿@{
+    Layout = "~/Shared/_Layout1.cshtml";
+}
+@section link {
+    <link rel="stylesheet" href="~/Shared/styleOne.css" />}
+@section script {
+    <script src="~/Scripts/scriptBasic.js"></script>}
 
-</body>
-</html>
+<!---Page Back-end Starts here-->
+@{
+    var book = "";
+    var chapter = "";
+    var verse = "";
+    var note = "";
+    var dateAdded = "";
+    var diary = "";
+    var scriptureId = "";
+
+    if (!IsPost)
+    {
+        //preloading page with single movie data
+        if (!Request.QueryString["scriptureid"].IsEmpty() && Request.QueryString["scriptureid"].IsInt())//validating that infor was sent to the page
+        {
+            scriptureId = Request.QueryString["scriptureid"];
+            var db = Database.Open("ScriptureJournal");
+            var dbCommand = "SELECT * FROM ScriptureJournal WHERE ID = @0";
+            var row = db.QuerySingle(dbCommand, scriptureId);//need to check if this had a value before assigning its contents to title genre and year variables.
+
+            if (row != null)
+            {
+                book = row.Book;
+                chapter = row.Chapter; //notice that row is being accessed by column name
+                verse = row.Verse;
+                note = row.Note;
+                dateAdded = row.DateAdded;
+                diary = row.Diary;
+            }
+            else
+            {
+                Validation.AddFormError("No movie was found for that ID.");
+            }
+        }
+        else
+        {
+            Validation.AddFormError("No movie was selected.");
+        }
+    }
+
+    //getting page to update entry(now getting variable data from the Request object not the database!)
+    if (IsPost)
+    {
+        //validating individual input fields <input>
+        Validation.RequireField("book", "You must enter a Book");
+        Validation.RequireField("chapter", "Chapter is required");
+        Validation.RequireField("verse", "You haven't entered a Verse");
+        Validation.RequireField("note", "You must enter a Scripture");
+        Validation.RequireField("dateAdded", "Date is required");
+        Validation.RequireField("diary", "You haven't made a Diary entry");
+
+        //rip info from page and put into temp variables
+        book = Request.Form["book"];
+        chapter = Request.Form["chapter"];
+        verse = Request.Form["verse"];
+        note = Request.Form["note"];
+        dateAdded = Request.Form["dateAdded"];
+        diary = Request.Form["diary"];
+        scriptureId = Request.Form["scriptureid"];
+
+        if (Validation.IsValid())
+        {
+            var db = Database.Open("ScriptureJournal");
+            var updateCommand = "UPDATE ScriptureJournal SET Book=@0, Chapter=@1, Verse=@2,Note=@3,DateAdded=@4,Diary=@5 WHERE Id=@6";
+            db.Execute(updateCommand, book, chapter, verse, note, dateAdded, diary, scriptureId);
+            Response.Redirect("index.cshtml");
+        }
+    }
+}
+<head>
+    <!--Head override-->
+    <meta charset="utf-8" />
+    <title>Edit a Movie</title>
+    <style>
+        .validation-summary-errors {
+            border: 2px dashed red;
+            color: red;
+            font-weight: bold;
+            margin: 12px;
+        }
+    </style>
+</head>
+<audio autoplay loop>
+    <source src="~/Images/junior85_-_01_-_Birdsong.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+</audio>
+
+<!---Body Starts here-->
+<h1>Edit a Scripture</h1>
+@Html.ValidationSummary()
+<form method="post">
+    <fieldset>
+        <legend>Scripture Information</legend>
+
+        <p>
+            <label for="book">Book:</label>
+            <input type="text" name="book" value="@book" />
+            @Html.ValidationMessage("book")
+        </p>
+
+        <p>
+            <label for="chapter">Chapter:</label>
+            <input type="text" name="chapter" value="@chapter" />
+            @Html.ValidationMessage("chapter")
+        </p>
+
+        <p>
+            <label for="verse">Verse:</label>
+            <input type="text" name="verse" value="@verse" />
+            @Html.ValidationMessage("verse")
+        </p>
+
+        <p>
+            <label for="note">Note:</label>
+            <textarea rows="5" cols="50" type="text" name="note">@note</textarea>
+            @Html.ValidationMessage("note")
+        </p>
+
+        <p>
+            <label for="diary">Diary:</label>
+            <textarea rows="5" cols="50" type="text" name="diary">@diary</textarea>
+            @Html.ValidationMessage("diary")
+        </p>
+
+        <p>
+            <label for="dateAdded">Date Added:</label>
+            <input type="text" name="dateAdded" value="@dateAdded" />
+            @Html.ValidationMessage("dateAdded")
+        </p>
+
+        <input type="hidden" name="scriptureid" value="@scriptureId" />
+        <p><input style="background-color:lavender;" type="submit" name="buttonSubmit" value="Submit Changes" /></p>
+    </fieldset>
+</form>
+<p><a href="megaDeskMain.cshtml">Home</a></p>
+
+

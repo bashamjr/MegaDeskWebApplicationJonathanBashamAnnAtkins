@@ -12,19 +12,19 @@
 
 <!--FORM HANDLING RAZOR CODE-->
 @{
-    var db = Database.Open("Quote2");
-    var selectCommand = "Select * FROM Quote";
+    var db = Database.Open("Quote");
+    var selectCommand = "Select * FROM Quotes";
     var searchTerm = "";
 
     if (!Request.QueryString["byCustomerName"].IsEmpty())
     {
-        selectCommand = "SELECT * FROM Quote WHERE Name = @0";
+        selectCommand = "SELECT * FROM Quotes WHERE Name = @0";
         searchTerm = Request.QueryString["byCustomerName"];
     }
 
     if (!Request.QueryString["surfaceMaterial"].IsEmpty())
     {
-        selectCommand = "SELECT * FROM Quote WHERE SurfaceMaterial LIKE @0";
+        selectCommand = "SELECT * FROM Quotes WHERE SurfaceMaterial LIKE @0";
         searchTerm = "%" + Request.QueryString["surfaceMaterial"] + "%";
     }
 
@@ -74,7 +74,7 @@
                              headerStyle: "head",
                              alternatingRowStyle: "alt",
                              columns: grid.Columns(
-                             grid.Column(format: @<a href="edit.cshtml?quoteid=@item.Id">Edit</a>),
+                             grid.Column(format: @<a style="color:chocolate;" href="edit.cshtml?quoteid=@item.Id">Edit</a>),
                              grid.Column("Date"),
                              grid.Column("Name"),
                              grid.Column("RushOption"),
@@ -83,7 +83,8 @@
                              grid.Column("DrawerCount"),
                              grid.Column("SurfaceMaterial"),
                              grid.Column("DeskQuote"),
-                             grid.Column(format:@<a onclick = "UpdateQuote()" href="updateQuote.cshtml?quoteid=@item.Id">UpdateQuote</a>),
+                             //grid.Column(format:@<a onclick = "UpdateQuote()" href="updateQuote.cshtml?quoteid=@item.Id">UpdateQuote</a>),
+                             grid.Column(format:@<a style="color:brown;"href="displayQuote.cshtml?quoteid=@item.Id">Display Quote</a>),
                              grid.Column(format:@<a href="delete.cshtml?quoteid=@item.Id">Delete</a>)
                                                                      )
                                                                    )
