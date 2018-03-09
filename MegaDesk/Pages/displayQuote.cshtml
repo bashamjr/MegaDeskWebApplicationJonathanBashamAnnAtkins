@@ -12,15 +12,16 @@
 
 <!--FORM HANDLING RAZOR CODE-->
 @{
-    var date = "";
-    var name = Request.QueryString["name"];
-    var rushOption = "";
-    var deskWidth = "";
-    var deskDepth = "";
-    var drawerCount = "";
-    var surfaceMaterial = "";
-    var deskQuote = "";
-    var quoteId = Request.QueryString["quoteid"];
+    string date = "";
+    string name = Request.QueryString["name"];
+    int rushOption = 0;
+    int deskWidth = 0;
+    int deskDepth = 0;
+    int drawerCount = 0;
+    string surfaceMaterial = "";
+    decimal deskQuote = 0;
+    var quoteId = "";
+
     if (!IsPost)
     {
         if (!Request.QueryString["quoteid"].IsEmpty() && Request.QueryString["quoteid"].IsInt())
@@ -33,7 +34,7 @@
             {
                 date = row.Date;
                 name = row.Name;
-                rushOption = row.RushOption.ToString();
+                rushOption = row.RushOption;
                 deskWidth = row.DeskWidth;
                 deskDepth = row.DeskDepth;
                 drawerCount = row.DrawerCount;
@@ -45,7 +46,7 @@
             }
             else
             {
-                Validation.AddFormError("Sorry, can't retrieve last quote that ID.");
+                Validation.AddFormError("Sorry, can't retrieve quote at that ID.");
             }
         }
         else
