@@ -59,7 +59,7 @@
     var _drawerCount = "";
     var _surfaceMaterial = "";
     //var _surfaceMaterialConverted = "";
-    var _deskQuote = 100M;
+    
 
 
     if (IsPost && Validation.IsValid())
@@ -77,31 +77,14 @@
         //   invoke the calculateDeskQuote method (and maybe other methods needed to
         //   fill out the DeskQuote object) the quote will be saved to the _deskQuote Variable
         //   which will be passed to the database for each quote created.
-        //test surface material
-        /*if(_surfaceMaterial == "Oak")
-         * {
-         *     _surfaceMaterialConverted = 0;
-         * 
-         * }
-         * else if (_surfaceMaterial == "Laminat")
-         * {
-         *     _surfaceMaterialConverted = 1;
-         * }
-         * 
-         * else if (_surfaceMaterial == "Pine")
-         * {
-         *     _surfaceMaterialConverted = 2;
-         * }
-         * else if (_surfaceMaterial == "RoseWood")
-         * {
-         *     _surfaceMaterialConverted = 3;
-         * }
-         * else if (_surfaceMaterial == "Veneer")
-         * {
-         *     _surfaceMaterialConverted = 4;*/
+        
+        MegaDesk.Desk theDesk = new Desk(int.Parse(_deskWidth), int.Parse(_deskDepth), int.Parse(_drawerCount), _surfaceMaterial);
 
-        //Desk theDesk= new Desk(_deskWidth ,_deskDepth, _drawerCount, _surfaceMaterialConverted);
-        //MegaDesk.DeskQuote theDeskQuote = new DeskQuote(_name, _rushoption, theDesk);
+        MegaDesk.DeskQuote theDeskQuote = new DeskQuote(_name, int.Parse(_rushoption), theDesk);
+
+        //milkjugs
+        var _rushOrderCost = theDeskQuote.CalculateRushOrderCost(int.Parse(_rushoption));
+        var _deskQuote = "$" + theDeskQuote.CalcDeskPrice();
 
 
 

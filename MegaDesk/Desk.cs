@@ -24,7 +24,7 @@ namespace MegaDesk
     };
     */
 
-    class Desk
+    public class Desk
     {
 
         //fields
@@ -39,11 +39,11 @@ namespace MegaDesk
         private decimal width;
         private decimal depth;
         private int numDrawers; //filled from outside the class so use properties to do it
-        public SurfaceMaterial finishing;
+       // private SurfaceMaterial finishing;
         //public  DeskStructure deskFields; I don't want to deal with structures within a class so I commented this section out
 
 
-        //Properties
+
         public decimal Depth
         {
             get { return depth; }
@@ -137,14 +137,15 @@ namespace MegaDesk
 
         }
 
-        public Desk(int width, int depth, int numDrawers, SurfaceMaterial surfMaterial)
+        public Desk(int width, int depth, int numDrawers,string SurfaceFinishing)
         {
             //by sticking the user input into the constructor for the properties to use, the 
             //  setters can do the validations and ensure that the constructors are properly creating an object.
             Width = width;
             Depth = depth;
             NumDrawers = numDrawers;
-            finishing = surfMaterial;
+            this.SurfaceFinishing = SurfaceFinishing;
+            
 
 
         }

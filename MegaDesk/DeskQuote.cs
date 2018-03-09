@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MegaDesk
 {
-    class DeskQuote
+    public class DeskQuote
     {
         //fields
         public decimal price;
@@ -35,6 +35,7 @@ namespace MegaDesk
             }
 
         }
+
         /// <summary>
         /// Rush option property
         /// </summary>
@@ -91,7 +92,7 @@ namespace MegaDesk
             desk.Depth = deskPassed.Depth;
             desk.Width = deskPassed.Width;
             desk.NumDrawers = deskPassed.NumDrawers;
-            desk.finishing = deskPassed.finishing;
+            surfaceMaterialOption = desk.SurfaceFinishing;
 
 
         }
@@ -149,7 +150,7 @@ namespace MegaDesk
         public decimal calclateSurfaceMaterialcost()
         {
             decimal sMCost = 0M;
-            if (desk.finishing == SurfaceMaterial.oak)
+            if (desk.SurfaceFinishing == "Oak")
             {
                 sMCost = 0M;
             }

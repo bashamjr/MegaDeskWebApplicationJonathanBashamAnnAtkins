@@ -1,4 +1,5 @@
-﻿@{
+﻿@using MegaDesk
+@{
     Layout = "~/Shared/_Layout1.cshtml";
 }
 @section link {
@@ -8,41 +9,45 @@
 
 <!---Page Back-end Starts here-->
 @{
-    var book = "";
-    var chapter = "";
-    var verse = "";
-    var note = "";
-    var dateAdded = "";
-    var diary = "";
-    var scriptureId = "";
+    var _date = "";
+    var _name = "";
+    var _rushOption = "";
+    var _deskWidth = "";
+    var _deskDepth = "";
+    var _drawerCount = "";
+    var _surfaceMaterial = "";
+    var _deskQuote = "";
+    var quoteId = "";
 
     if (!IsPost)
     {
-        //preloading page with single movie data
-        if (!Request.QueryString["scriptureid"].IsEmpty() && Request.QueryString["scriptureid"].IsInt())//validating that infor was sent to the page
+        //preloading page with single quote data
+        if (!Request.QueryString["quoteid"].IsEmpty() && Request.QueryString["quoteid"].IsInt())//validating that infor was sent to the page
         {
-            scriptureId = Request.QueryString["scriptureid"];
-            var db = Database.Open("ScriptureJournal");
-            var dbCommand = "SELECT * FROM ScriptureJournal WHERE ID = @0";
-            var row = db.QuerySingle(dbCommand, scriptureId);//need to check if this had a value before assigning its contents to title genre and year variables.
+            quoteId = Request.QueryString["quoteid"];
+            var db = Database.Open("Quote");
+            var dbCommand = "SELECT * FROM Quotes WHERE ID = @0";
+            var row = db.QuerySingle(dbCommand, quoteId);//need to check if this had a value before assigning its contents to title genre and year variables.
 
             if (row != null)
             {
-                book = row.Book;
-                chapter = row.Chapter; //notice that row is being accessed by column name
-                verse = row.Verse;
-                note = row.Note;
-                dateAdded = row.DateAdded;
-                diary = row.Diary;
+                _date = row.Date;
+                _name = row.Name;
+                _rushOption = row.RushOption;
+                _deskWidth = row.DeskWidth;
+                _deskDepth = row.DeskDepth;
+                _drawerCount = row.DrawerCount;
+                _surfaceMaterial = row.SurfaceMaterial;
+                _deskQuote = row.DeskQuote;
             }
             else
             {
-                Validation.AddFormError("No movie was found for that ID.");
+                Validation.AddFormError("No quote was found for that ID.");
             }
         }
         else
         {
-            Validation.AddFormError("No movie was selected.");
+            Validation.AddFormError("No quote was selected.");
         }
     }
 
@@ -50,35 +55,55 @@
     if (IsPost)
     {
         //validating individual input fields <input>
-        Validation.RequireField("book", "You must enter a Book");
-        Validation.RequireField("chapter", "Chapter is required");
-        Validation.RequireField("verse", "You haven't entered a Verse");
-        Validation.RequireField("note", "You must enter a Scripture");
-        Validation.RequireField("dateAdded", "Date is required");
-        Validation.RequireField("diary", "You haven't made a Diary entry");
+        Validation.RequireField("date", "You must enter a Date");
+        Validation.RequireField("name", "Name is required");
+        Validation.RequireField("rushOption", "You haven't selected a Rush Option");
+        Validation.RequireField("deskWidth", "You must enter Desk Width");
+        Validation.RequireField("deskDepth", "Desk Depth selection is required");
+        Validation.RequireField("drawerCount", "How many Desk Drawers do you want?");
+        Validation.RequireField("surfaceMaterial", "Choose your Desk Finish");
+
+        /*range checks*/
+
+
+
+
+
+        /*check input is valid*/
+
 
         //rip info from page and put into temp variables
-        book = Request.Form["book"];
-        chapter = Request.Form["chapter"];
-        verse = Request.Form["verse"];
-        note = Request.Form["note"];
-        dateAdded = Request.Form["dateAdded"];
-        diary = Request.Form["diary"];
-        scriptureId = Request.Form["scriptureid"];
+        _date = Request.Form["date"];
+        _name = Request.Form["name"];
+        _rushOption = Request.Form["rushOption"];
+        _deskWidth = Request.Form["deskWidth"];
+        _deskDepth = Request.Form["deskDepth"];
+        _drawerCount = Request.Form["drawerCount"];
+        _surfaceMaterial = Request.Form["surfaceMaterial"];
+
 
         if (Validation.IsValid())
         {
-            var db = Database.Open("ScriptureJournal");
-            var updateCommand = "UPDATE ScriptureJournal SET Book=@0, Chapter=@1, Verse=@2,Note=@3,DateAdded=@4,Diary=@5 WHERE Id=@6";
-            db.Execute(updateCommand, book, chapter, verse, note, dateAdded, diary, scriptureId);
-            Response.Redirect("index.cshtml");
+            //instantiate desk object and deskquote objects and get deskquote to pass to database.
+
+            MegaDesk.Desk theDesk = new Desk(int.Parse(_deskWidth), int.Parse(_deskDepth), int.Parse(_drawerCount), _surfaceMaterial);
+
+            MegaDesk.DeskQuote theDeskQuote = new DeskQuote(_name, int.Parse(_rushOption), theDesk);
+
+            //milkjugs
+            var _rushOrderCost = theDeskQuote.CalculateRushOrderCost(int.Parse(_rushOption));
+            _deskQuote = theDeskQuote.CalcDeskPrice().ToString();
+
+
+            var db = Database.Open("Quote");
+            var updateCommand = "UPDATE Quotes SET Date=@0, Name=@1, RushOption=@2, DeskWidth=@3, DeskDepth=@4, DrawerCount=@5, SurfaceMaterial=@6, DeskQuote=@7 WHERE Id=@8";
+            db.Execute(updateCommand,_date,_name,_rushOption,_deskWidth,_deskDepth,_drawerCount,_surfaceMaterial,_deskQuote,quoteId);
+            Response.Redirect("megaDeskMain.cshtml");
         }
     }
 }
 <head>
     <!--Head override-->
-    <meta charset="utf-8" />
-    <title>Edit a Movie</title>
     <style>
         .validation-summary-errors {
             border: 2px dashed red;
@@ -88,58 +113,71 @@
         }
     </style>
 </head>
-<audio autoplay loop>
-    <source src="~/Images/junior85_-_01_-_Birdsong.mp3" type="audio/mp3">
-    Your browser does not support the audio element.
-</audio>
+
 
 <!---Body Starts here-->
-<h1>Edit a Scripture</h1>
+<h1>Edit a quote</h1>
 @Html.ValidationSummary()
+
+<!--OPTIONAL FORMs-->
+<!--Form1-->
 <form method="post">
     <fieldset>
-        <legend>Scripture Information</legend>
+        <legend>Edited Quote Information</legend>
 
         <p>
-            <label for="book">Book:</label>
-            <input type="text" name="book" value="@book" />
+            <label for="date">Date:</label>
+            <input type="text" name="date" value="@DateTime.Now" />
             @Html.ValidationMessage("book")
         </p>
 
         <p>
-            <label for="chapter">Chapter:</label>
-            <input type="text" name="chapter" value="@chapter" />
+            <label for="name">Name:</label>
+            <input type="text" name="name" value="@_name" />
             @Html.ValidationMessage("chapter")
         </p>
 
         <p>
-            <label for="verse">Verse:</label>
-            <input type="text" name="verse" value="@verse" />
-            @Html.ValidationMessage("verse")
+            <label for="rushOption">RushOption(Enter 3, 5 or 7):</label>
+            <input type="text" name="rushOption" value="@_rushOption" />
+
+
         </p>
 
         <p>
-            <label for="note">Note:</label>
-            <textarea rows="5" cols="50" type="text" name="note">@note</textarea>
-            @Html.ValidationMessage("note")
+            <label for="deskWidth">Desk Width:</label>
+            <input type="text" name="deskWidth" value="@_deskWidth"/>
+            @Html.ValidationMessage("deskWidth")
         </p>
 
         <p>
-            <label for="diary">Diary:</label>
-            <textarea rows="5" cols="50" type="text" name="diary">@diary</textarea>
-            @Html.ValidationMessage("diary")
+            <label for="deskDepth">Desk Depth:</label>
+            <input type="text" name="deskDepth" value="@_deskDepth" />
+            @Html.ValidationMessage("deskDepth")
         </p>
 
         <p>
-            <label for="dateAdded">Date Added:</label>
-            <input type="text" name="dateAdded" value="@dateAdded" />
-            @Html.ValidationMessage("dateAdded")
+            <label for="drawerCount">Drawer Count(Enter a number between 0-7):</label>
+            <input type="text" name="drawerCount" value="@_drawerCount" />
         </p>
 
-        <input type="hidden" name="scriptureid" value="@scriptureId" />
+        <p>
+            <label for="surfaceMaterial">SurfaceMaterial(Enter Oak, RoseWood, Pine, Laminate or Veneer):</label>
+            <input style="background-color:aliceblue"; type="text" name="surfaceMaterial" value="@_surfaceMaterial"/>
+        </p>
+
+        <input type="hidden" name="quoteid" value="@quoteId" />
         <p><input style="background-color:lavender;" type="submit" name="buttonSubmit" value="Submit Changes" /></p>
     </fieldset>
 </form>
-<p><a href="megaDeskMain.cshtml">Home</a></p>
+
+<!--OPTIONAL OUTPUT-->
+<!---LINKS-->
+<div>
+    <p>
+        <a id="MainPageLink" href="megaDeskMain.cshtml">Home</a>
+    </p>
+</div>
+
 
 
