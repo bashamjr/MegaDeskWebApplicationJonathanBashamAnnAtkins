@@ -9,14 +9,15 @@
 
 <!---Page Back-end Starts here-->
 @{
-    var _date = "";
-    var _name = "";
-    var _rushOption = "";
-    var _deskWidth = "";
-    var _deskDepth = "";
-    var _drawerCount = "";
-    var _surfaceMaterial = "";
-    var _deskQuote = "";
+    string date = "";
+    string name = "";
+    int rushOption = 0;
+    int deskWidth = 0;
+    int deskDepth = 0;
+    int drawerCount = 0;
+    string surfaceMaterial = "";
+    decimal deskQuote = 0;
+
     var quoteId = "";
 
     if (!IsPost)
@@ -31,14 +32,14 @@
 
             if (row != null)
             {
-                _date = row.Date;
-                _name = row.Name;
-                _rushOption = row.RushOption;
-                _deskWidth = row.DeskWidth;
-                _deskDepth = row.DeskDepth;
-                _drawerCount = row.DrawerCount;
-                _surfaceMaterial = row.SurfaceMaterial;
-                _deskQuote = row.DeskQuote;
+                date = row.Date;
+                name = row.Name;
+                rushOption = row.RushOption;
+                deskWidth = row.DeskWidth;
+                deskDepth = row.DeskDepth;
+                drawerCount = row.DrawerCount;
+                surfaceMaterial = row.SurfaceMaterial;
+                deskQuote = row.DeskQuote;
             }
             else
             {
@@ -73,32 +74,34 @@
 
 
         //rip info from page and put into temp variables
-        _date = Request.Form["date"];
-        _name = Request.Form["name"];
-        _rushOption = Request.Form["rushOption"];
-        _deskWidth = Request.Form["deskWidth"];
-        _deskDepth = Request.Form["deskDepth"];
-        _drawerCount = Request.Form["drawerCount"];
-        _surfaceMaterial = Request.Form["surfaceMaterial"];
+        date = Request.Form["date"];
+        name = Request.Form["name"];
+        rushOption = Request.Form["rushOption"].AsInt();
+        deskWidth = Request.Form["deskWidth"].AsInt();
+        deskDepth = Request.Form["deskDepth"].AsInt();
+        drawerCount = Request.Form["drawerCount"].AsInt();
+        surfaceMaterial = Request.Form["surfaceMaterial"];
+        quoteId = Request.Form["quoteid"];
 
 
         if (Validation.IsValid())
         {
             //instantiate desk object and deskquote objects and get deskquote to pass to database.
 
-            MegaDesk.Desk theDesk = new Desk(int.Parse(_deskWidth), int.Parse(_deskDepth), int.Parse(_drawerCount), _surfaceMaterial);
+            MegaDesk.Desk theDesk = new Desk(deskWidth, deskDepth, drawerCount, surfaceMaterial);
 
-            MegaDesk.DeskQuote theDeskQuote = new DeskQuote(_name, int.Parse(_rushOption), theDesk);
+            MegaDesk.DeskQuote theDeskQuote = new DeskQuote(name, rushOption, theDesk);
 
             //milkjugs
-            var _rushOrderCost = theDeskQuote.CalculateRushOrderCost(int.Parse(_rushOption));
-            _deskQuote = theDeskQuote.CalcDeskPrice().ToString();
+            int _rushOrderCost = theDeskQuote.CalculateRushOrderCost(rushOption);
 
+            deskQuote = theDeskQuote.CalcDeskPrice();
 
             var db = Database.Open("Quote");
             var updateCommand = "UPDATE Quotes SET Date=@0, Name=@1, RushOption=@2, DeskWidth=@3, DeskDepth=@4, DrawerCount=@5, SurfaceMaterial=@6, DeskQuote=@7 WHERE Id=@8";
-            db.Execute(updateCommand,_date,_name,_rushOption,_deskWidth,_deskDepth,_drawerCount,_surfaceMaterial,_deskQuote,quoteId);
+            db.Execute(updateCommand, date, name, rushOption, deskWidth, deskDepth, drawerCount, surfaceMaterial, deskQuote, quoteId);
             Response.Redirect("megaDeskMain.cshtml");
+
         }
     }
 }
@@ -133,37 +136,37 @@
 
         <p>
             <label for="name">Name:</label>
-            <input type="text" name="name" value="@_name" />
+            <input type="text" name="name" value="@name" />
             @Html.ValidationMessage("chapter")
         </p>
 
         <p>
             <label for="rushOption">RushOption(Enter 3, 5 or 7):</label>
-            <input type="text" name="rushOption" value="@_rushOption" />
+            <input type="text" name="rushOption" value="@rushOption" />
 
 
         </p>
 
         <p>
             <label for="deskWidth">Desk Width:</label>
-            <input type="text" name="deskWidth" value="@_deskWidth"/>
+            <input type="text" name="deskWidth" value="@deskWidth"/>
             @Html.ValidationMessage("deskWidth")
         </p>
 
         <p>
             <label for="deskDepth">Desk Depth:</label>
-            <input type="text" name="deskDepth" value="@_deskDepth" />
+            <input type="text" name="deskDepth" value="@deskDepth" />
             @Html.ValidationMessage("deskDepth")
         </p>
 
         <p>
             <label for="drawerCount">Drawer Count(Enter a number between 0-7):</label>
-            <input type="text" name="drawerCount" value="@_drawerCount" />
+            <input type="text" name="drawerCount" value="@drawerCount" />
         </p>
 
         <p>
             <label for="surfaceMaterial">SurfaceMaterial(Enter Oak, RoseWood, Pine, Laminate or Veneer):</label>
-            <input style="background-color:aliceblue"; type="text" name="surfaceMaterial" value="@_surfaceMaterial"/>
+            <input style="background-color:aliceblue"; type="text" name="surfaceMaterial" value="@surfaceMaterial"/>
         </p>
 
         <input type="hidden" name="quoteid" value="@quoteId" />
