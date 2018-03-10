@@ -86,6 +86,9 @@
 
         if (Validation.IsValid())
         {
+
+            //on submit/post, recalculate cost of desk and update value in database
+            //when user redirects to database,the face new quote....I think, sounds legit.
             //instantiate desk object and deskquote objects and get deskquote to pass to database.
 
             MegaDesk.Desk theDesk = new Desk(deskWidth, deskDepth, drawerCount, surfaceMaterial);
@@ -95,7 +98,7 @@
             //milkjugs
             int _rushOrderCost = theDeskQuote.CalculateRushOrderCost(rushOption);
 
-            deskQuote = theDeskQuote.CalcDeskPrice();
+            deskQuote =  theDeskQuote.CalcDeskPrice();
 
             var db = Database.Open("Quote");
             var updateCommand = "UPDATE Quotes SET Date=@0, Name=@1, RushOption=@2, DeskWidth=@3, DeskDepth=@4, DrawerCount=@5, SurfaceMaterial=@6, DeskQuote=@7 WHERE Id=@8";
@@ -149,7 +152,7 @@
 
         <p>
             <label for="deskWidth">Desk Width:</label>
-            <input type="text" name="deskWidth" value="@deskWidth"/>
+            <input type="text" name="deskWidth" value="@deskWidth" />
             @Html.ValidationMessage("deskWidth")
         </p>
 
@@ -166,11 +169,16 @@
 
         <p>
             <label for="surfaceMaterial">SurfaceMaterial(Enter Oak, RoseWood, Pine, Laminate or Veneer):</label>
-            <input style="background-color:aliceblue"; type="text" name="surfaceMaterial" value="@surfaceMaterial"/>
+            <input style="background-color:aliceblue" ; type="text" name="surfaceMaterial" value="@surfaceMaterial" />
+        </p>
+
+        <p>
+            <label for="updatedQuote">Updated DeskQuote:</label>
+            <input style="background-color:orange" ; type="text" name="updatedQuote" value="@deskQuote" />
         </p>
 
         <input type="hidden" name="quoteid" value="@quoteId" />
-        <p><input style="background-color:lavender;" type="submit" name="buttonSubmit" value="Submit Changes" /></p>
+        <p><input style="background-color:deepskyblue;" type="submit" name="buttonSubmit" value="Submit Changes" /></p>
     </fieldset>
 </form>
 

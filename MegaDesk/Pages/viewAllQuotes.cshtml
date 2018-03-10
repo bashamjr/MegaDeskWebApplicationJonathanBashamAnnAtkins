@@ -1,0 +1,53 @@
+﻿@section script {
+    <script src="~/Scripts/scriptBasic.js"></script>}
+
+@section link{
+    <link rel="stylesheet" href="~/Shared/styleOne.css" />
+}
+
+
+
+<!--FORM HANDLING RAZOR CODE-->
+@{
+    var db = Database.Open("Quote");
+    var selectCommand = "SELECT * FROM Quotes";
+    var searchTerm = "";
+
+    var selectedData = db.Query(selectCommand, searchTerm);
+    var grid = new WebGrid(source: selectedData, defaultSort: "Date", rowsPerPage: 5);
+
+}
+
+
+
+<!--Optional Additional Markup-->
+<div class="mainPageHeadingDivImageSearchPage">
+    <span><img id="deskImage" src="~/Media/Images/megadeskTwo.jpg" /></span><span id="megaDeskWords">MegaDesk</span>
+</div>
+
+<!--OPTIONAL FORMs-->
+<!--Form1-->
+<!--OPTIONAL OUTPUT-->
+<div>
+    @grid.GetHtml(
+                                                     tableStyle: "grid",
+                                                     headerStyle: "head",
+                                                     alternatingRowStyle: "alt",
+                                                     columns: grid.Columns(
+                                                     grid.Column("Date"),
+                                                     grid.Column("Name"),
+                                                     grid.Column("RushOption"),
+                                                     grid.Column("DeskWidth"),
+                                                     grid.Column("DeskDepth"),
+                                                     grid.Column("DrawerCount"),
+                                                     grid.Column("SurfaceMaterial"),
+                                                     grid.Column("DeskQuote")))
+</div>
+
+
+<!---LINKS-->
+<div>
+    <p id="homeFromSearchParagraph">
+        <a id="homeFromSearchLink" href="megaDeskMain.cshtml">Home</a>
+    </p>
+</div>

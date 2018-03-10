@@ -107,6 +107,8 @@
     <Content Include="Pages\displayQuote.cshtml" />
     <Content Include="Pages\_PageStart.cshtml" />
     <Content Include="Pages\updateQuote.cshtml" />
+    <Content Include="Pages\searchPage.cshtml" />
+    <Content Include="Pages\viewAllQuotes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
