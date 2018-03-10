@@ -1,6 +1,6 @@
 ﻿body {
 }
-#mainPageHeadingDivImage {
+.PageHeadingDivImage {
     margin-top:-50px;
     padding-bottom:25px;
 }
@@ -21,6 +21,7 @@
     width: 200px;
     height:40px;
     font-size:1.25em;
+    
 
 }
 #customerNameSearchBox {
@@ -30,7 +31,7 @@
 }
 
 a {
-    color: mediumslateblue;
+    color: black;
     text-decoration: none;
 }
 
@@ -40,7 +41,7 @@ a {
 
     /* mouse over link */
     a:hover {
-        color: mediumpurple;
+        color: darkgoldenrod;
     }
 
     /* selected link */
@@ -60,15 +61,21 @@ a {
 }
 
 .head {
-    background-color: lightgoldenrodyellow;
+    background-color: sandybrown;
     font-weight: bold;
     color: goldenrod;
 }
 
 .alt {
-    background-color: lavender;
-    color: black;
+    background-color:black;
+    color: white;
     font-weight: bold;
+}
+
+#addPageLink{
+    color:darkred;
+    font-size:1.25em;
+    font-weigt:bold;
 }
 /*
 @keyframes anime1 {
