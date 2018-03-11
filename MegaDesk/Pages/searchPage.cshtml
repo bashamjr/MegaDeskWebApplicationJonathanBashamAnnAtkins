@@ -19,8 +19,8 @@
 
     if (!Request.QueryString["byCustomerName"].IsEmpty())
     {
-        selectCommand = "SELECT * FROM Quotes WHERE Name = @0";
-        searchTerm = Request.QueryString["byCustomerName"];
+        selectCommand = "SELECT * FROM Quotes WHERE Name LIKE @0";
+        searchTerm = "%" + Request.QueryString["byCustomerName"] + "%";
     }
 
     if (!Request.QueryString["surfaceMaterial"].IsEmpty())
@@ -38,24 +38,21 @@
 
 
 
-<!--Optional Additional Markup-->
-<div class="mainPageHeadingDivImageSearchPage">
-    <span><img id="deskImage" src="~/Media/Images/megadeskTwo.jpg" /></span><span id="megaDeskWords">MegaDesk</span>
-</div>
-
+<div><h1>Search Quotes</h1></div>
+<br />
 <!--OPTIONAL FORMs-->
 <!--Form1-->
 <form method="get">
     <div>
-        <label style="font-weight:bold; font-size:1.5em;" for="byCustomerName">Search by Customer Name:</label>
+        <label for="byCustomerName">Search by Customer Name:</label>
         <input id="customerNameSearchBox" type="text" name="byCustomerName" value="@Request.QueryString["byCustomername"]" />
-        <input style="background-color:darkred; font-weight:bold; padding:10px;" type="Submit" value="Search Quotes" /><br />
+        <input id="button" type="Submit" value="Search" /><br />
         (Leave blank to list all quotes.)<br />
     </div>
     <div>
-        <label style="font-weight:bold; font-size:1.5em;" for="SurfaceMaterial">Search by Surface Material:</label>
+        <label for="SurfaceMaterial">Search by Surface Material:</label>
         <input id="surfaceMaterialSearchBox" type="text" name="surfaceMaterial" value="@Request.QueryString["surfaceMaterial"]" />
-        <input style="background-color:darkred; font-weight:bold; padding:10px;" type="Submit" value="Search Quotes" /><br />
+        <input id="button" type="Submit" value="Search" /><br />
     </div>
 </form>
 
@@ -63,29 +60,19 @@
 <!--OPTIONAL OUTPUT-->
 <div>
     @grid.GetHtml(
-                                         tableStyle: "grid",
-                                         headerStyle: "head",
-                                         alternatingRowStyle: "alt",
-                                         columns: grid.Columns(
-                                         grid.Column("Date"),
-                                         grid.Column("Name"),
-                                         grid.Column("RushOption"),
-                                         grid.Column("DeskWidth"),
-                                         grid.Column("DeskDepth"),
-                                         grid.Column("DrawerCount"),
-                                         grid.Column("SurfaceMaterial"),
-                                         grid.Column("DeskQuote")
-                                                                                                                                              )
-                                                                                                                                              )
-<div style="visibility:hidden;" id="outPut">
+                    tableStyle: "grid",
+                    headerStyle: "head",
+                    alternatingRowStyle: "alt",
+                    columns: grid.Columns(
+                        grid.Column("Date"),
+                        grid.Column("Name"),
+                        grid.Column("RushOption"),
+                        grid.Column("DeskWidth"),
+                        grid.Column("DeskDepth"),
+                        grid.Column("DrawerCount"),
+                        grid.Column("SurfaceMaterial"),
+                        grid.Column("DeskQuote")
+                    )
+                  )
 </div>
 
-</div>
-
-
-<!---LINKS-->
-<div>
-    <p id="homeFromSearchParagraph">
-        <a id="homeFromSearchLink" href="megaDeskMain.cshtml">Home</a>
-    </p>
-</div>

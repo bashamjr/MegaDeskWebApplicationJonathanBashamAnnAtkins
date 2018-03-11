@@ -19,7 +19,7 @@
     int deskDepth = 0;
     int drawerCount = 0;
     string surfaceMaterial = "";
-    decimal deskQuote = 0;
+    string deskQuote = "";
     var quoteId = "";
 
     if (!IsPost)
@@ -40,9 +40,6 @@
                 drawerCount = row.DrawerCount;
                 surfaceMaterial = row.SurfaceMaterial;
                 deskQuote = row.DeskQuote;
-
-
-
             }
             else
             {
@@ -56,57 +53,45 @@
     }
 
 }
-
-
-
+    <div>
+    <h1>Display quote</h1>
+        <br />
+    </div>
 <!--Optional Additional Markup-->
 <!--OPTIONAL FORMs-->
 <!--Form1-->
-<form method="post">
-    <fieldset>
-        <legend>Last Quote Information</legend>
+<div id="displayQuoteContainer">
+    <h2>Quote Information</h2>
         <p>
-            <span>Date:</span>
+            <span class="label">Date:</span>
             <span>@date</span>
         </p>
-
         <p>
-            <span>Name:</span>
+            <span class="label">Name:</span>
             <span>@name</span>
         </p>
-
         <p>
-            <span>Rush Option:</span>
+            <span class="label">Rush Option:</span>
             <span>@rushOption</span>
         </p>
-
         <p>
-            <span>Desk Width:</span>
+            <span class="label">Desk Width:</span>
             <span>@deskWidth</span>
         </p>
-
         <p>
-            <span>Desk Depth:</span>
+            <span class="label">Desk Depth:</span>
             <span>@deskDepth</span>
         </p>
-
         <p>
-            <span>Drawer Count:</span>
+            <span class="label">Drawer Count:</span>
             <span>@drawerCount</span>
         </p>
         <p>
-            <span>Surface Material:</span>
+            <span class="label">Surface Material:</span>
             <span>@surfaceMaterial</span>
         </p>
-
         <p>
-            <span>Desk Quote:</span>
+            <span class="label">Desk Quote:</span>
             <span>@deskQuote</span>
         </p>
-
-       
-    </fieldset>
-</form>
-<!--OPTIONAL OUTPUT-->
-<!---LINKS-->
-<p><a href="megaDeskMain.cshtml">Home</a></p>
+</div>

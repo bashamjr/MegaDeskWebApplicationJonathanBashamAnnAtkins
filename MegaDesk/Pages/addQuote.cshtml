@@ -59,7 +59,7 @@
     var _drawerCount = "";
     var _surfaceMaterial = "";
     //var _surfaceMaterialConverted = "";
-    
+
 
 
     if (IsPost && Validation.IsValid())
@@ -77,15 +77,14 @@
         //   invoke the calculateDeskQuote method (and maybe other methods needed to
         //   fill out the DeskQuote object) the quote will be saved to the _deskQuote Variable
         //   which will be passed to the database for each quote created.
-        
+
         MegaDesk.Desk theDesk = new Desk(int.Parse(_deskWidth), int.Parse(_deskDepth), int.Parse(_drawerCount), _surfaceMaterial);
 
         MegaDesk.DeskQuote theDeskQuote = new DeskQuote(_name, int.Parse(_rushoption), theDesk);
 
         //milkjugs
         var _rushOrderCost = theDeskQuote.CalculateRushOrderCost(int.Parse(_rushoption));
-        var _deskQuote = "$" + theDeskQuote.CalcDeskPrice();
-
+        var _deskQuote = String.Format("{0:C}", theDeskQuote.CalcDeskPrice());
 
 
 
@@ -100,7 +99,6 @@
         Response.Redirect("megaDeskMain.cshtml?name = @item.Name");
     }
 }
-
 <!--Optional Additional Markup-->
 <!--OPTIONAL FORMs-->
 <!--BodyStarts here-->
@@ -111,58 +109,45 @@
 <form method="post">
     <fieldset>
         <legend>Quote Information</legend>
-        <p>
+        <div>
             <label for="date">Date:</label>
             <input type="text" name="date" value="@DateTime.Now" />
             @Html.ValidationMessage("book")
-        </p>
-      
-        <p>
+        </div>
+        <div>
             <label for="name">Name:</label>
             <input type="text" name="name" value="@Request.Form["name"]" />
             @Html.ValidationMessage("chapter")
-        </p>
-
-        <p>
-            <label for="rushOption">RushOption(Enter 3, 5 or 7):</label>
-            <input type="text" name="rushOption" value="@Request.Form["rushOption"]" /> 
-            
-
-        </p>
-
-        <p>
+        </div>
+        <div>
+            <label for="rushOption">RushOption:</label>
+            <input type="text" name="rushOption" value="@Request.Form["rushOption"]" />
+            (Enter 3, 5 or 7)
+        </div>
+        <div>
             <label for="deskWidth">Desk Width:</label>
             <input type="text" name="deskWidth" value="@Request.Form["deskWidth"]" />
             @Html.ValidationMessage("deskWidth")
-        </p>
-
-        <p>
+        </div>
+        <div>
             <label for="deskDepth">Desk Depth:</label>
             <input type="text" name="deskDepth" value="@Request.Form["deskDepth"]" />
             @Html.ValidationMessage("deskDepth")
-        </p>
-
-        <p>
-            <label for="drawerCount">Drawer Count(Enter a number between 0-7):</label>
-            <input type="text" name="drawerCount" value="@Request.Form["drawerCount"]" /> 
-        </p>
-
-        <p>
-            <label for="surfaceMaterial">SurfaceMaterial(Enter Oak, RoseWood, Pine, Laminate or Veneer):</label>
-            <input type="text" name="surfaceMaterial" value="@Request.Form["surfaceMaterial"]"/> 
-        </p>
-
-        <p><input type="submit" name="buttonSubmit" value="Add Quote" /></p>
+        </div>
+        <div>
+            <label for="drawerCount">Drawer Count:</label>
+            <input type="text" name="drawerCount" value="@Request.Form["drawerCount"]" />
+            (Enter a number between 0-7)
+        </div>
+        <div>
+            <label for="surfaceMaterial">SurfaceMaterial:</label>
+            <input type="text" name="surfaceMaterial" value="@Request.Form["surfaceMaterial"]" />
+            (Enter Oak, RoseWood, Pine, Laminate or Veneer)
+        </div>
+        <div>
+            <input id="button" type="submit" name="buttonSubmit" value="Add Quote" />
+        </div>
     </fieldset>
 </form>
-
-
-<!--OPTIONAL OUTPUT-->
-<!---LINKS-->
-<div>
-    <p>
-        <a id="MainPageLink" href="megaDeskMain.cshtml">Home</a>
-    </p>
-</div>
 
 

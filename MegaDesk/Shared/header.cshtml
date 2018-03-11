@@ -1,20 +1,13 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="Author" content="AA">
-        <meta name="keywords" content="tutorial, html">
-        <link rel="stylesheet" href="~/Shared/styleOne.css">
-        <script src="~/Scripts/scriptOne.js" type="text/javascript"></script>
-        <title>@Page.Title</title>
-        @RenderSection("head", required: false)
-        @RenderSection("link", required: false)
-        @RenderSection("script", required: false)
-</head>
-<body>
-
-</body>
-</html>
-<!---One can put a nav bar in the header or make a navbar file and insert it where needed
-    with Render Page razor code--->
+﻿<header>
+    <div id="logo"><img src="~/Media/Images/megadesklogo-blue.png" alt="logo" /></div>
+    <h1>Desk Quote Web Application</h1>
+    <!---LINKS-->
+    <nav>
+        <ul>
+            <li><a href="megaDeskMain.cshtml">Home</a></li>
+            <li><a href="addQuote.cshtml">Build a Quote</a></li>
+            <li><a style="" href="viewAllQuotes.cshtml">View All Quotes</a></li>
+            <li><a style="" href="searchPage.cshtml">Search Quotes</a></li>
+        </ul>
+    </nav>
+</header>

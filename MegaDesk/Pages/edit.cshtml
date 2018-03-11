@@ -16,7 +16,7 @@
     int deskDepth = 0;
     int drawerCount = 0;
     string surfaceMaterial = "";
-    decimal deskQuote = 0;
+    string deskQuote = "";
 
     var quoteId = "";
 
@@ -98,7 +98,8 @@
             //milkjugs
             int _rushOrderCost = theDeskQuote.CalculateRushOrderCost(rushOption);
 
-            deskQuote =  theDeskQuote.CalcDeskPrice();
+            deskQuote = String.Format("{0:C}", theDeskQuote.CalcDeskPrice());
+           
 
             var db = Database.Open("Quote");
             var updateCommand = "UPDATE Quotes SET Date=@0, Name=@1, RushOption=@2, DeskWidth=@3, DeskDepth=@4, DrawerCount=@5, SurfaceMaterial=@6, DeskQuote=@7 WHERE Id=@8";
@@ -130,65 +131,46 @@
 <form method="post">
     <fieldset>
         <legend>Edited Quote Information</legend>
-
-        <p>
+        <div>
             <label for="date">Date:</label>
             <input type="text" name="date" value="@DateTime.Now" />
             @Html.ValidationMessage("book")
-        </p>
-
-        <p>
+        </div>
+        <div>
             <label for="name">Name:</label>
             <input type="text" name="name" value="@name" />
             @Html.ValidationMessage("chapter")
-        </p>
-
-        <p>
+        </div>
+        <div>
             <label for="rushOption">RushOption(Enter 3, 5 or 7):</label>
             <input type="text" name="rushOption" value="@rushOption" />
-
-
-        </p>
-
-        <p>
+        </div>
+        <div>
             <label for="deskWidth">Desk Width:</label>
             <input type="text" name="deskWidth" value="@deskWidth" />
             @Html.ValidationMessage("deskWidth")
-        </p>
-
-        <p>
+        </div>
+        <div>
             <label for="deskDepth">Desk Depth:</label>
             <input type="text" name="deskDepth" value="@deskDepth" />
             @Html.ValidationMessage("deskDepth")
-        </p>
-
-        <p>
+        </div>
+        <div>
             <label for="drawerCount">Drawer Count(Enter a number between 0-7):</label>
             <input type="text" name="drawerCount" value="@drawerCount" />
-        </p>
-
-        <p>
+        </div>
+        <div>
             <label for="surfaceMaterial">SurfaceMaterial(Enter Oak, RoseWood, Pine, Laminate or Veneer):</label>
-            <input style="background-color:aliceblue" ; type="text" name="surfaceMaterial" value="@surfaceMaterial" />
-        </p>
-
-        <p>
+            <input type="text" name="surfaceMaterial" value="@surfaceMaterial" />
+        </div>
+        <div>
             <label for="updatedQuote">Updated DeskQuote:</label>
-            <input style="background-color:orange" ; type="text" name="updatedQuote" value="@deskQuote" />
-        </p>
-
+            <input style="background-color:orange;" type="text" name="updatedQuote" value="@deskQuote" readonly />
+        </div>
         <input type="hidden" name="quoteid" value="@quoteId" />
-        <p><input style="background-color:deepskyblue;" type="submit" name="buttonSubmit" value="Submit Changes" /></p>
+        <div><input id="button" type="submit" name="buttonSubmit" value="Submit Changes"  /></div>
     </fieldset>
 </form>
-
-<!--OPTIONAL OUTPUT-->
-<!---LINKS-->
-<div>
-    <p>
-        <a id="MainPageLink" href="megaDeskMain.cshtml">Home</a>
-    </p>
-</div>
 
 
 

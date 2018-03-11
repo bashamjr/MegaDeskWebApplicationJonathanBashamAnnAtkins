@@ -94,7 +94,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Quote.sdf" />
+    <Content Include="App_Data\Quote.sdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Default.cshtml" />
     <None Include="packages.config" />
     <Content Include="Shared\_Layout1.cshtml" />

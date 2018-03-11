@@ -14,10 +14,10 @@
 @{
     var date = "";
     var name = "";
-    var rushOption = "";
-    var deskWidth = "";
-    var deskDepth = "";
-    var drawerCount = "";
+    int rushOption = 0;
+    int deskWidth = 0;
+    int deskDepth = 0;
+    int drawerCount = 0;
     var surfaceMaterial = "";
     var deskQuote = "";
     var quoteId = "";
@@ -67,8 +67,7 @@
      }
 }
 
-
-
+<div><h1>Delete Quote Confirmation</h1><br /></div>
 <!--Optional Additional Markup-->
 <!--OPTIONAL FORMs-->
 <!--Form1-->
@@ -79,27 +78,22 @@
             <span>Date:</span>
             <span>@date</span>
         </p>
-
         <p>
             <span>Name:</span>
             <span>@name</span>
         </p>
-
         <p>
             <span>Rush Option:</span>
             <span>@rushOption</span>
         </p>
-
         <p>
             <span>Desk Width:</span>
             <span>@deskWidth</span>
         </p>
-
         <p>
             <span>Desk Depth:</span>
             <span>@deskDepth</span>
         </p>
-
         <p>
             <span>Drawer Count:</span>
             <span>@drawerCount</span>
@@ -108,20 +102,14 @@
             <span>Surface Material:</span>
             <span>@surfaceMaterial</span>
         </p>
-
         <p>
             <span>Desk Quote:</span>
             <span>@deskQuote</span>
         </p>
-
         <input type="hidden" name="quoteid" value="@quoteId" /><!--was filled from querystring in first retrieval of page-->
-        <input type="submit" name="buttonDelete" value="Delete Quote" />
+        <input id="button" type="submit" name="buttonDelete" value="Delete Quote" />
+        <p>Note: Once you press delete it can not be undone!</p>
     </fieldset>
 </form>
 <!--OPTIONAL OUTPUT-->
 <!---LINKS-->
-<div>
-    <p>
-        <a id="MainPageLink" href="megaDeskMain.cshtml">Home</a>
-    </p>
-</div>
