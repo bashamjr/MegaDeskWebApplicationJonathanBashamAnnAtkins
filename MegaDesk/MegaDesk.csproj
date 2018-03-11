@@ -99,6 +99,22 @@
     </Content>
     <Content Include="Default.cshtml" />
     <None Include="packages.config" />
+    <None Include="Media\Images\Laminate.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Media\Images\megadesklogo-blue.png" />
+    <None Include="Media\Images\Oak.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Media\Images\Pine.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Media\Images\Rosewood.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Media\Images\Veneer.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Shared\_Layout1.cshtml" />
     <Content Include="Shared\header.cshtml" />
     <Content Include="Shared\footer.cshtml" />

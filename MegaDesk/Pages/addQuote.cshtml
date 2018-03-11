@@ -106,6 +106,8 @@
 <!--Gets sum summary of all validation reports on all elements validated-->
 @Html.ValidationSummary()
 
+
+
 <form method="post">
     <fieldset>
         <legend>Quote Information</legend>
@@ -149,23 +151,35 @@
                 <option value="@Request.Form["surfaceMaterial"]">Veneer</option>
             </select>
             <br />
-            <br />Choose from:<br />
             <br />
-            Oak
-            <img src="~/Media/Images/Oak.jpg" alt="Oak" width=100px" height="auto" />
-            Pine
-            <img src="~/Media/Images/Pine.jpg" alt="Pine" width=100px" height="auto" />
-            Rosewood
-            <img src="~/Media/Images/Rosewood.jpg" alt="Rosewood" width=100px" height="auto" />
-            Laminate
-            <img src="~/Media/Images/Laminate.jpg" alt="Laminate" width=100px" height="auto" />
-            Veneer
-            <img src="~/Media/Images/Veneer.jpg" alt="Veneer" width=100px" height="auto" />
+            Choose from:
+            <ul id="materialSelectionImages">
+                <li>
+                    <p>Oak</p>
+                    <img src="/Media/Images/Oak.jpg" alt="Oak" width=100px" height="100px" />
+                </li>
+                <li>
+                    <p>Pine</p>
+                    <img src="/Media/Images/Pine.jpg" alt="Pine" width=100px" height="100px" />
+                </li>
+                <li>
+                    <p>RoseWood</p>
+                    <img src="/Media/Images/Rosewood.jpg" alt="Rosewood" width=100px" height="100px" />
+                </li>
+                <li>
+                    <p>Laminate</p>
+                    <img src="/Media/Images/Laminate.jpg" alt="Laminate" width=100px" height="100px" />
+                </li>
+                <li>
+                    <p>Veneer</p>
+                    <img src="/Media/Images/Veneer.jpg" alt="Veneer" width=100px" height="100px" />
+                </li>
+            </ul>
         </div>
+
         <div>
             <input id="button" type="submit" name="buttonSubmit" value="Add Quote" />
         </div>
     </fieldset>
 </form>
-
 
