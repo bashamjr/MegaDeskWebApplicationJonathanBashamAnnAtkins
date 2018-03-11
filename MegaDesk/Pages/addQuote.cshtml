@@ -141,8 +141,26 @@
         </div>
         <div>
             <label for="surfaceMaterial">SurfaceMaterial:</label>
-            <input type="text" name="surfaceMaterial" value="@Request.Form["surfaceMaterial"]" />
-            (Enter Oak, RoseWood, Pine, Laminate or Veneer)
+            <select name="surfaceMaterial">
+                <option value="@Request.Form["surfaceMaterial"]">Oak</option>
+                <option value="@Request.Form["surfaceMaterial"]">Pine</option>
+                <option value="@Request.Form["surfaceMaterial"]">RoseWood</option>
+                <option value="@Request.Form["surfaceMaterial"]">Laminate</option>
+                <option value="@Request.Form["surfaceMaterial"]">Veneer</option>
+            </select>
+            <br />
+            <br />Choose from:<br />
+            <br />
+            Oak
+            <img src="~/Media/Images/Oak.jpg" alt="Oak" width=100px" height="auto" />
+            Pine
+            <img src="~/Media/Images/Pine.jpg" alt="Pine" width=100px" height="auto" />
+            Rosewood
+            <img src="~/Media/Images/Rosewood.jpg" alt="Rosewood" width=100px" height="auto" />
+            Laminate
+            <img src="~/Media/Images/Laminate.jpg" alt="Laminate" width=100px" height="auto" />
+            Veneer
+            <img src="~/Media/Images/Veneer.jpg" alt="Veneer" width=100px" height="auto" />
         </div>
         <div>
             <input id="button" type="submit" name="buttonSubmit" value="Add Quote" />
